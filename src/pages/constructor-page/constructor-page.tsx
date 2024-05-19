@@ -9,11 +9,10 @@ import { FC, useEffect } from 'react';
 import {
   getIngredients,
   getIngredientsData
-} from '../../slices/ingredients-slice';
+} from '../../slices/ingredients-slice/ingredients-slice';
 
 export const ConstructorPage: FC = () => {
   /** TODO: взять переменную из стора */
-
   const dispatch = useDispatch();
   const { loading } = useSelector(getIngredients);
 
