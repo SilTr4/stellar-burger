@@ -28,12 +28,26 @@ const initialState: TUserState = {
 
 export const registerUser = createAsyncThunk(
   'user/register',
-  async (data: TRegisterData) => registerUserApi(data)
+  async (data: TRegisterData) => {
+    const userData = await registerUserApi(data);
+    if (userData?.success) {
+      localStorage.setItem('refreshToken', userData.refreshToken);
+      setCookie('accessToken', userData.accessToken);
+    }
+    return userData;
+  }
 );
 
 export const loginUser = createAsyncThunk(
   'user/login',
-  async (data: TLoginData) => loginUserApi(data)
+  async (data: TLoginData) => {
+    const userData = await loginUserApi(data);
+    if (userData?.success) {
+      localStorage.setItem('refreshToken', userData.refreshToken);
+      setCookie('accessToken', userData.accessToken);
+    }
+    return userData;
+  }
 );
 
 export const forgotPassword = createAsyncThunk(
@@ -55,7 +69,14 @@ export const updateUser = createAsyncThunk(
   async (user: Partial<TRegisterData>) => updateUserApi(user)
 );
 
-export const logout = createAsyncThunk('user/logout', async () => logoutApi());
+export const logout = createAsyncThunk('user/logout', async () => {
+  const isLogout = await logoutApi();
+  if (isLogout?.success) {
+    localStorage.clear();
+    setCookie('accessToken', '', { expires: -1 });
+  }
+  return isLogout;
+});
 
 export const userSlice = createSlice({
   name: 'user',
@@ -77,8 +98,6 @@ export const userSlice = createSlice({
         state.isAuthenticated = true;
         state.name = action.payload.user.name;
         state.email = action.payload.user.email;
-        localStorage.setItem('refreshToken', action.payload.refreshToken);
-        setCookie('accessToken', action.payload.accessToken);
       })
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
@@ -91,8 +110,6 @@ export const userSlice = createSlice({
         state.isAuthenticated = true;
         state.name = action.payload.user.name;
         state.email = action.payload.user.email;
-        localStorage.setItem('refreshToken', action.payload.refreshToken);
-        setCookie('accessToken', action.payload.accessToken);
       })
       .addCase(getUser.pending, (state) => {
         state.isLoading = true;
@@ -129,8 +146,6 @@ export const userSlice = createSlice({
         state.isAuthenticated = false;
         state.name = '';
         state.email = '';
-        localStorage.clear();
-        setCookie('accessToken', '', { expires: -1 });
       });
   }
 });

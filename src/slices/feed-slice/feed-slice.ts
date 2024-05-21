@@ -21,13 +21,14 @@ export const feedSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getFeeds.pending, (state) => {
-        (state.success = false), (state.orders = []);
+        state.success = false;
+        state.orders = [];
       })
       .addCase(getFeeds.fulfilled, (state, action) => {
-        (state.success = action.payload.success),
-          (state.orders = action.payload.orders),
-          (state.total = action.payload.total),
-          (state.totalToday = action.payload.totalToday);
+        state.success = action.payload.success;
+        state.orders = action.payload.orders;
+        state.total = action.payload.total;
+        state.totalToday = action.payload.totalToday;
       });
   }
 });

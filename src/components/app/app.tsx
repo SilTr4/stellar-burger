@@ -19,7 +19,6 @@ import { useDispatch, useSelector } from '../../services/store';
 import { useEffect } from 'react';
 import { getIngredientsData } from '../../slices/ingredients-slice/ingredients-slice';
 import { getUser, getUserData } from '../../slices/user-slice/user-slice';
-import { getFeeds } from '../../slices/feed-slice/feed-slice';
 import { getOrdersData } from '../../slices/orders-slice/orders-slice';
 
 const App = () => {
@@ -35,14 +34,6 @@ const App = () => {
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getFeeds());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getOrdersData());
-  }, [dispatch, isAuthenticated]);
 
   const background = location.state?.background;
 
@@ -100,6 +91,15 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path='/profile/orders/:number'
+          element={
+            <ProtectedRoute>
+              <OrderInfo />
+            </ProtectedRoute>
+          }
+        />
+        <Route path='/feed/:number' element={<OrderInfo />} />
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route path='*' element={<NotFound404 />} />
       </Routes>

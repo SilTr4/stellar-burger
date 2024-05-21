@@ -38,6 +38,7 @@ export const BurgerConstructor: FC = () => {
     constructorItems.ingredients.forEach((ingredient) => {
       order.push(ingredient._id);
     });
+    order.push(constructorItems.bun._id);
     dispatch(orderBurger(order));
   };
   const closeOrderModal = () => {
