@@ -33,7 +33,9 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => {
             to='/feed'
             className={clsx(
               styles.link,
-              location.pathname === '/feed' ? styles.link_active : ''
+              location.pathname.split('/')[1] === 'feed'
+                ? styles.link_active
+                : ''
             )}
           >
             <ListIcon type={'primary'} />
