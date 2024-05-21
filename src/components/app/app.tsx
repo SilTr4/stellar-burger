@@ -15,14 +15,16 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route/protected-route';
-import { useDispatch } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { useEffect } from 'react';
 import { getIngredientsData } from '../../slices/ingredients-slice/ingredients-slice';
-import { getUser } from '../../slices/user-slice/user-slice';
+import { getUser, getUserData } from '../../slices/user-slice/user-slice';
 import { getFeeds } from '../../slices/feed-slice/feed-slice';
 import { getOrdersData } from '../../slices/orders-slice/orders-slice';
 
 const App = () => {
+  const isAuthenticated = useSelector(getUserData).isAuthenticated;
+
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -40,7 +42,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getOrdersData());
-  }, [dispatch]);
+  }, [dispatch, isAuthenticated]);
 
   const background = location.state?.background;
 

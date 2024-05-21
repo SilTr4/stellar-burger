@@ -8,24 +8,31 @@ import {
   orderBurger,
   resetCurrentOrder
 } from '../../slices/orders-slice/orders-slice';
+import { getUserData } from '../../slices/user-slice/user-slice';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const dispatch = useDispatch();
   const burger = useSelector(getBurgersIngredients);
   const order = useSelector(getOrders);
+  const userData = useSelector(getUserData);
+  const navigate = useNavigate();
 
   const constructorItems = {
     bun: burger.bun,
     ingredients: burger.ingredients
   };
 
-  const orderRequest = !order.success;
+  const orderRequest = order.pending;
 
   const orderModalData = order.currentOrder;
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+    if (!userData.isAuthenticated) {
+      return navigate('/login');
+    }
     const order: string[] = [];
     order.push(constructorItems.bun._id);
     constructorItems.ingredients.forEach((ingredient) => {

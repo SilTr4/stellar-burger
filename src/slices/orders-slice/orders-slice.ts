@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
 type TOrderInitialState = {
+  pending: boolean;
   success: boolean;
   orders: TOrder[];
   total: number;
@@ -11,6 +12,7 @@ type TOrderInitialState = {
 };
 
 const initialState: TOrderInitialState = {
+  pending: false,
   success: false,
   orders: [],
   total: 0,
@@ -48,10 +50,10 @@ export const orderSlice = createSlice({
         state.orders = action.payload;
       })
       .addCase(orderBurger.pending, (state) => {
-        state.success = false;
+        state.pending = true;
       })
       .addCase(orderBurger.fulfilled, (state, action) => {
-        state.success = true;
+        state.pending = false;
         state.currentOrder = action.payload.order;
       });
   }
