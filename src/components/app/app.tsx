@@ -15,9 +15,33 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route/protected-route';
+import { useDispatch } from '../../services/store';
+import { useEffect } from 'react';
+import { getIngredientsData } from '../../slices/ingredients-slice/ingredients-slice';
+import { getUser } from '../../slices/user-slice/user-slice';
+import { getFeeds } from '../../slices/feed-slice/feed-slice';
+import { getOrdersData } from '../../slices/orders-slice/orders-slice';
 
 const App = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
+
+  useEffect(() => {
+    dispatch(getIngredientsData());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getFeeds());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getOrdersData());
+  }, [dispatch]);
+
   const background = location.state?.background;
 
   return (
@@ -29,7 +53,7 @@ const App = () => {
         <Route
           path='/login'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Login />
             </ProtectedRoute>
           }
@@ -37,7 +61,7 @@ const App = () => {
         <Route
           path='/register'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Register />
             </ProtectedRoute>
           }
@@ -45,7 +69,7 @@ const App = () => {
         <Route
           path='/forgot-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <ForgotPassword />
             </ProtectedRoute>
           }
@@ -53,7 +77,7 @@ const App = () => {
         <Route
           path='/reset-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <ResetPassword />
             </ProtectedRoute>
           }
@@ -65,16 +89,15 @@ const App = () => {
               <Profile />
             </ProtectedRoute>
           }
-        >
-          <Route
-            path='orders'
-            element={
-              <ProtectedRoute>
-                <ProfileOrders />
-              </ProtectedRoute>
-            }
-          />
-        </Route>
+        />
+        <Route
+          path='/profile/orders'
+          element={
+            <ProtectedRoute>
+              <ProfileOrders />
+            </ProtectedRoute>
+          }
+        />
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
@@ -108,7 +131,7 @@ const App = () => {
             }
           />
           <Route
-            path='orders/:number'
+            path='/profile/orders/:number'
             element={
               <ProtectedRoute>
                 <Modal

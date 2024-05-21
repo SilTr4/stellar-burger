@@ -11,8 +11,8 @@ const initialState: IBurgerIngredientsState = {
   ingredients: []
 };
 
-export const burgerIngredientsSlice = createSlice({
-  name: 'burger/ingredients',
+export const burgerConstructorSlice = createSlice({
+  name: 'burgerConstructor',
   initialState,
   reducers: {
     addIngredient: (state, action: PayloadAction<TIngredient>) => {
@@ -40,7 +40,6 @@ export const burgerIngredientsSlice = createSlice({
   }
 });
 
-export const burgerReducer = burgerIngredientsSlice.reducer;
 export const { addIngredient, removeIngredient } =
-  burgerIngredientsSlice.actions;
-export const { getBurgersIngredients } = burgerIngredientsSlice.selectors;
+  burgerConstructorSlice.actions;
+export const { getBurgersIngredients } = burgerConstructorSlice.selectors;

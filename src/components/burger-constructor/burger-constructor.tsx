@@ -1,26 +1,41 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { useSelector } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
+import { getBurgersIngredients } from '../../slices/burger-constructor-slice/burger-constructor-slice';
+import {
+  getOrders,
+  orderBurger,
+  resetCurrentOrder
+} from '../../slices/orders-slice/orders-slice';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-
-  const burger = useSelector((state) => state.burgerIngredients);
+  const dispatch = useDispatch();
+  const burger = useSelector(getBurgersIngredients);
+  const order = useSelector(getOrders);
 
   const constructorItems = {
     bun: burger.bun,
     ingredients: burger.ingredients
   };
 
-  const orderRequest = false;
+  const orderRequest = !order.success;
 
-  const orderModalData = null;
+  const orderModalData = order.currentOrder;
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+    const order: string[] = [];
+    order.push(constructorItems.bun._id);
+    constructorItems.ingredients.forEach((ingredient) => {
+      order.push(ingredient._id);
+    });
+    dispatch(orderBurger(order));
   };
-  const closeOrderModal = () => {};
+  const closeOrderModal = () => {
+    dispatch(resetCurrentOrder());
+  };
 
   const price = useMemo(
     () =>
