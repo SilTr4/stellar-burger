@@ -17,13 +17,15 @@ export type TUserState = {
   name: string;
   email: string;
   isLoading: boolean;
+  error: string | undefined;
 };
 
 const initialState: TUserState = {
   isAuthenticated: false,
   name: '',
   email: '',
-  isLoading: false
+  isLoading: false,
+  error: undefined
 };
 
 export const registerUser = createAsyncThunk(
@@ -90,8 +92,9 @@ export const userSlice = createSlice({
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(registerUser.rejected, (state) => {
+      .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
+        state.error = action.error.message;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -102,8 +105,9 @@ export const userSlice = createSlice({
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(loginUser.rejected, (state) => {
+      .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
+        state.error = action.error.message;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -114,8 +118,9 @@ export const userSlice = createSlice({
       .addCase(getUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getUser.rejected, (state) => {
+      .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
+        state.error = action.error.message;
       })
       .addCase(getUser.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -126,8 +131,9 @@ export const userSlice = createSlice({
       .addCase(updateUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateUser.rejected, (state) => {
+      .addCase(updateUser.rejected, (state, action) => {
         state.isLoading = false;
+        state.error = action.error.message;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -138,8 +144,9 @@ export const userSlice = createSlice({
       .addCase(logout.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(logout.rejected, (state) => {
+      .addCase(logout.rejected, (state, action) => {
         state.isLoading = false;
+        state.error = action.error.message;
       })
       .addCase(logout.fulfilled, (state) => {
         state.isLoading = false;
