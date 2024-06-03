@@ -1,15 +1,14 @@
-import { userSlice, TUserState, loginUser, getUser, updateUser, logout } from './user-slice';
-import { registerUser } from './user-slice';
+import {
+  userSlice,
+  loginUser,
+  getUser,
+  updateUser,
+  logout,
+  registerUser,
+  initialState
+} from './user-slice';
 
 describe('user Slice', () => {
-  const initialState: TUserState = {
-    isAuthenticated: false,
-    name: '',
-    email: '',
-    isLoading: false,
-    error: undefined
-  };
-
   const testUserData = {
     email: 'test@test.ru',
     name: 'user',

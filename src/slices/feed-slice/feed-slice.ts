@@ -2,7 +2,7 @@ import { getFeedsApi } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrdersData } from '@utils-types';
 
-const initialState: TOrdersData & {
+export const initialState: TOrdersData & {
   success: boolean;
   error: string | undefined;
 } = {

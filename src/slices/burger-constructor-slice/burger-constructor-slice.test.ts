@@ -1,18 +1,13 @@
 import {
   addIngredient,
   burgerConstructorSlice,
-  IBurgerIngredientsState,
   moveToBottom,
   moveToTop,
-  removeIngredient
+  removeIngredient,
+  initialState
 } from './burger-constructor-slice';
 
 describe('burger constructor slice', () => {
-  const initialState: IBurgerIngredientsState = {
-    bun: null,
-    ingredients: []
-  };
-
   const bun = {
     _id: '643d69a5c3f7b9001cfa093c',
     name: 'Краторная булка N-200i',

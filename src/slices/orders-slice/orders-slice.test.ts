@@ -1,22 +1,12 @@
 import {
-  TOrderInitialState,
   getOrdersData,
   orderBurger,
   orderSlice,
-  resetCurrentOrder
+  resetCurrentOrder,
+  initialState
 } from './orders-slice';
 
 describe('order slice', () => {
-  const initialState: TOrderInitialState = {
-    pending: false,
-    success: false,
-    orders: [],
-    total: 0,
-    totalToday: 0,
-    currentOrder: null,
-    error: undefined
-  };
-
   const order = {
     _id: '1',
     name: 'order',

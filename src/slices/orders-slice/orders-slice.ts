@@ -12,7 +12,7 @@ export type TOrderInitialState = {
   error: string | undefined;
 };
 
-const initialState: TOrderInitialState = {
+export const initialState: TOrderInitialState = {
   pending: false,
   success: false,
   orders: [],

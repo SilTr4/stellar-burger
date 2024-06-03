@@ -1,13 +1,10 @@
-import { ingredientsSlice, IngredientsState } from './ingredients-slice';
-import { getIngredientsData } from './ingredients-slice';
+import {
+  ingredientsSlice,
+  getIngredientsData,
+  initialState
+} from './ingredients-slice';
 
 describe('ingredientsSlice', () => {
-  const initialState: IngredientsState = {
-    ingredients: [],
-    loading: true,
-    error: undefined
-  };
-
   it('set loading true, when pending', () => {
     const actualState = ingredientsSlice.reducer(
       initialState,

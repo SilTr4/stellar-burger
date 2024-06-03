@@ -8,7 +8,7 @@ export type IngredientsState = {
   error: string | undefined;
 };
 
-const initialState: IngredientsState = {
+export const initialState: IngredientsState = {
   ingredients: [],
   loading: true,
   error: undefined

@@ -1,15 +1,6 @@
-import { feedSlice } from './feed-slice';
-import { getFeeds } from './feed-slice';
+import { feedSlice, getFeeds, initialState } from './feed-slice';
 
 describe('feedSlice', () => {
-  const initialState = {
-    success: false,
-    orders: [],
-    total: 0,
-    totalToday: 0,
-    error: undefined
-  };
-
   const testResponse = {
     success: true,
     total: 1,
