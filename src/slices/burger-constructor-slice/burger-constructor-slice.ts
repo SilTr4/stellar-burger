@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
+import { v4 as uuid } from 'uuid';
 
 export type IBurgerIngredientsState = {
   bun: TIngredient | null;
@@ -28,7 +29,7 @@ export const burgerConstructorSlice = createSlice({
         }
       },
       prepare: (ingredient: TIngredient) => ({
-        payload: { ...ingredient, id: crypto.randomUUID() }
+        payload: { ...ingredient, id: uuid() }
       })
     },
     removeIngredient: (state, action: PayloadAction<string>) => {
