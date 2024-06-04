@@ -2,22 +2,24 @@ import { getOrdersApi, orderBurgerApi } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
-type TOrderInitialState = {
+export type TOrderInitialState = {
   pending: boolean;
   success: boolean;
   orders: TOrder[];
   total: number;
   totalToday: number;
   currentOrder: TOrder | null;
+  error: string | undefined;
 };
 
-const initialState: TOrderInitialState = {
+export const initialState: TOrderInitialState = {
   pending: false,
   success: false,
   orders: [],
   total: 0,
   totalToday: 0,
-  currentOrder: null
+  currentOrder: null,
+  error: undefined
 };
 
 export const getOrdersData = createAsyncThunk('orders/getAll', async () =>
@@ -49,8 +51,16 @@ export const orderSlice = createSlice({
         state.success = true;
         state.orders = action.payload;
       })
+      .addCase(getOrdersData.rejected, (state, action) => {
+        state.success = false;
+        state.error = action.error.message;
+      })
       .addCase(orderBurger.pending, (state) => {
         state.pending = true;
+      })
+      .addCase(orderBurger.rejected, (state, action) => {
+        state.pending = false;
+        state.error = action.error.message;
       })
       .addCase(orderBurger.fulfilled, (state, action) => {
         state.pending = false;
